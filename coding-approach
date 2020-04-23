@@ -1,0 +1,13 @@
+Jupyter Notebooks:
+
+- Sequential and rather intuitive coding tool 
+- Can run snippets of code at a time which is good for testing, can provide a narrative along with 
+the code you have written, and is good for data visualization 
+- Merging notebooks can be difficult (Is possible) and is not the best for version control.
+
+Google Colab:
+
+- Free cloud service that can serve as a development environment where you can upload jupyter 
+notebooks
+- Can collaborate on the same notebook at the same time (Similar to Google Docs) 
+- Free GPU makes good speed

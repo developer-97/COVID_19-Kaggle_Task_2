@@ -8,8 +8,8 @@ parser.add_argument('--path', type=str,
 args = parser.parse_args()
 
 def print_this_pickle(pickle_number):
-    file_name = args.path + str(pickle)
-    with open(args.path + "/1.pkl", "rb") as f:
+    file_name = args.path + "/" + str(pickle_number) + ".pkl"
+    with open(file_name, "rb") as f:
         articles = pickle.load(f)
         print(articles)
 

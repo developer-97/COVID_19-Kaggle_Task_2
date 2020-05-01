@@ -33,10 +33,17 @@ def load_this_article(path, articles_dict):
         article = json.load(f)
         this_article_dict = {}
         body_text = ""
+        abstract_text =""
         for text in article['body_text']:
             body_text = body_text + text['text']
+        try:
+            for text in article['abstract']:
+                abstract_text = abstract_text + text['text']
+        except KeyError:
+            pass
         this_article_dict["title"] = article["metadata"]["title"]
         this_article_dict["text"] = body_text
+        this_article_dict["abstract"] = abstract_text
         this_article_dict["authors"] = article["metadata"]["authors"]
         print (this_article_dict)
         print("---------------------")

@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4114f8c5-ded2-4dd1-aa9a-3862cab7eb58" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/LDA.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/1.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/2.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_load.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_load.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pickle_data_load.py" beforeDir="false" afterPath="$PROJECT_DIR$/pickle_data_load.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -133,7 +135,7 @@
       <updated>1588207529893</updated>
       <workItem from="1588207532533" duration="309000" />
       <workItem from="1588294364241" duration="10686000" />
-      <workItem from="1588872847473" duration="5749000" />
+      <workItem from="1588872847473" duration="8454000" />
     </task>
     <servers />
   </component>
@@ -154,8 +156,8 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/proj$pickle_data_load.coverage" NAME="pickle_data_load Coverage Results" MODIFIED="1588885333214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/proj$data_load.coverage" NAME="data_load Coverage Results" MODIFIED="1588880797869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/proj$pickle_data_load.coverage" NAME="pickle_data_load Coverage Results" MODIFIED="1588890161645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/proj$data_load.coverage" NAME="data_load Coverage Results" MODIFIED="1588889650394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/proj$LDA.coverage" NAME="LDA Coverage Results" MODIFIED="1588872975720" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -77,3 +77,4 @@ if __name__ == "__main__":
         #     generate_output(articles_dict, this_batch)
         #     break
         count = count + 1
+    generate_output(articles_dict, this_batch)

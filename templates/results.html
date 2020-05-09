@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Search Results</title>
+        <link  rel = "stylesheet" type="text/css" href="styles.css" >
+        <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+    </head>
+
+    <body>
+        <div class="head">
+            <h1>Covid-19 Risk Factors &#129298;</h1>
+            <h2>Search database to better understand the risk factors of the Novel Coronavirus &#129440;</h2>
+        </div>
+
+        <div id="divide"> </div>
+        <form class="sec_query" action="/results.html" name="search" method="POST">
+            Search by Symptom: 
+            <select name="symptom">
+                <option value="asthma">Asthma</option>
+                <option value="cancer">Cancer</option>
+                <option value="diabeties">Diabeties</option>
+                <option value="heart">Heart Issues</option>
+                <option value="none">No Symptom</option>
+            </select><br>
+            Free Search:<br>
+            <textarea name="freesearch" rows="5" cols="20">Enter Search Here</textarea>
+            
+            <input type="submit" value="submit">
+        </form>
+
+        <h2>Search Results</h2>
+    </body>
+</html>

@@ -8,6 +8,8 @@ app = Flask(__name__)
 #global variables
 temp_text=""
 temp_sypm=""
+temp_race = ""
+temp_topic = ""
 g_results = {}
 #display query page (search method)
 @app.route("/")
@@ -19,36 +21,50 @@ def search():
 @app.route("/results",defaults={'page':1},methods=['GET','POST'])
 @app.route("/results/<page>",methods=['GET','POST'])
 def results(page):
-    global temp_text
     global temp_sypm
+    global temp_race
+    global temp_topic
     global g_results
 
     if type(page) is not int:
         page = int(page.encode('utf-8'))
     
     if request.method == 'POST':
-        text_q = request.form['freesearch']
+       
         symp = request.form['symptom']
-
-        temp_text = text_q
-        if (symp == 'none'):
-            temp_sypm = " "
+        race_q = request.form['race']
+      
+        if len(symp) == 0 or (symp == 'None'):
+            temp_sypm = ""
+            symp = ""
         else:
             temp_sypm = symp
 
+
+        if len(race_q) == 0 or (race_q == 'None'):
+            temp_race = ""
+            race_q = ""
+        else:
+            temp_race = race_q
     else:
-        text_q = temp_text
         symp = temp_sypm
+        race_q = temp_race
 
     docs = {}
-    docs['text'] = text_q
+    docs['symp'] = symp
+    docs['race'] = race_q
+
 
     search = Search(index='covid_19_index')
-
-    if len(text_q) > 0:
-        s = search.query('multi_match',query=text_q,type='cross_fields',fields=['title','abstract','body_text'])
+    #something needs to always be in free search for now to avoid errors
     
-
+    
+    if len(symp) > 0:
+        full_query = "risk factors "  + symp
+        s = search.query('multi_match',query=full_query,type='cross_fields',fields=['title','abstract','body_text'])
+    if len(race_q) > 0:
+        full_query = "risk "+race_q
+        s = search.query('multi_match',query=full_query,type='cross_fields',fields=['title','abstract','body_text'])
     start = 0 + (page - 1) * 10
     end = 10 + (page - 1) * 10
 
@@ -63,25 +79,31 @@ def results(page):
         result_list['abstract'] = hit.abstract
         result_list['text'] = hit.body_text
 
-        results_list[hit.meta.paper_id] = result
+    
+        result_list[hit.id] = result
     
     g_results = result_list
     num_results = response.hits.total['value']
+   
     if num_results > 0:
-        return render_template('results.html',results=result_list,num=num_results,page_num=page,queries=docs)
+        rem = num_results % 10
+        total_pages = num_results / 10
+        if rem > 0:
+            total_pages = total_pages + 1
+        return render_template('results.html',results=result_list,res_num=num_results,page_num=page,total = total_pages,queries=docs)
     else:
         message = []
-        if len(text_q) > 0:
-            message.append('Unknown search term(s) '+text_q)
-        
-        return render_template('results.html',results=message,num=num_results,page_num=page,queries=docs)
+        message.append('Cannot formulate results')
+    
+        return render_template('results.html',results=message,res_num=num_results,page_num=page,queries=docs)
 @app.route("/documents/<res>",methods=['GET'])
 def documents(res):
     global g_results
     doc = g_results[res]
-    title = doc['title']
-    text = doc['body_text']
-    return render_template('doc_page.html',doc=doc,title=title,text=text)
+    doc_title = "why doesnt it work"
+    text = doc['text']
+    full_doc = Document_COVID_19.get(id=res,index="covid_19_index")
+    return render_template('doc_page.html',doc=full_doc,title=full_doc['title'])
 
 if __name__ == "__main__":
     app.run(debug=True)

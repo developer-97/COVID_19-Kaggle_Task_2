@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>Homepage</title>
-        <link  rel = "stylesheet" type="text/css" href="/Users/jasmynejeanremy/Desktop/COVID_19-Kaggle_Task_2/static/styles/styles.css" >
+        
         <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
     </head>
     <style>
@@ -18,17 +18,12 @@
                 <h2>Kaggle Task 2: What do we know about COVID-19 Risk Factors? &#129440;</h2>
             </div>
             <div id="divide"> </div>
-            <form class="query" action="/results.html" name="search" method="POST">
+            <form class="query" action="/results" name="search" method="POST">
                 <fieldset>
                     <legend>Search</legend>
                     <dl>
-                        <p>Free Search</p>
-                        <dd>
-                            <textarea name="freesearch" rows="4" cols="100"></textarea>
-                        </dd>
-    
-                        
-                           <p>What do we know about potential Risk Factors:</p> <input list="symptoms" name="symptom">
+                    
+                            What do we know about potential risk factors: <input list="symptoms" name="symptom">
                             <datalist id="symptoms">
                                 <option value="None">
                                 <option value="Asthma">
@@ -37,21 +32,20 @@
                                 <option value="Respiratory">
                                 <option value="Pregnancy">
                                
-                            </datalist>
-                      
-                        <p>Search by Pre-Made questions</p>
-                        <dd>
-                            
-                            <input list="questions" name="set">
-                            <datalist id="questions">
+                                </datalist> 
+                            <br><br>
+
+                            How susceptible are populations: <input list="race" name="race">
+                            <datalist id="race">
                                 <option value="None">
-                                    <option value="What demographics are most effected?">
-                                    <option value="How severe is Covid-19?">
-                                    <option value="Fatality in high-risk groups">
-                                    <option value="What demographics are more likely to contract Covid-19">
+                                    <option value="White">
+                                    <option value="African American">
+                                    <option value="Hispanic">
+                                    <option value="Asian">
                                     
                             </datalist>
-                        </dd>
+                            
+                      
                         <p>Choose Topic</p>
                         <dd> 
                             <input type="checkbox" id="topic1" value="Death Rates">

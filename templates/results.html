@@ -3,32 +3,88 @@
 <html>
     <head>
         <title>Search Results</title>
-        <link  rel = "stylesheet" type="text/css" href="styles.css" >
+       
         <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
     </head>
+    <style>
+        body{
+            font-family: Comfortaa;
+        }
 
+        #results{
+            border:10px;
+        }
+    </style>
     <body>
         <div class="head">
             <h1>Covid-19 Risk Factors &#129298;</h1>
-            <h2>Search database to better understand the risk factors of the Novel Coronavirus &#129440;</h2>
+            <h2>Kaggle Task 2: What do we know about COVID-19 Risk Factors? &#129440;</h2>
         </div>
-
         <div id="divide"> </div>
-        <form class="sec_query" action="/results.html" name="search" method="POST">
-            Search by Symptom: 
-            <select name="symptom">
-                <option value="asthma">Asthma</option>
-                <option value="cancer">Cancer</option>
-                <option value="diabeties">Diabeties</option>
-                <option value="heart">Heart Issues</option>
-                <option value="none">No Symptom</option>
-            </select><br>
-            Free Search:<br>
-            <textarea name="freesearch" rows="5" cols="20">Enter Search Here</textarea>
-            
-            <input type="submit" value="submit">
+        <form class="query" action="/results" name="search" method="POST">
+            <fieldset>
+                <legend>Search</legend>
+                <dl>
+                        
+                        What do we know about potential risk factors: <input list="symptoms" name="symptom">
+                        <datalist id="symptoms">
+                            <option value="None">
+                            <option value="Asthma">
+                            <option value="Cancer">
+                            <option value="Smoker/Pulmonary Disease">
+                            <option value="Respiratory">
+                            <option value="Pregnancy">
+                           
+                            </datalist> 
+                        <br><br>
+
+                        How susceptible are populations: <input list="race" name="race">
+                        <datalist id="race">
+                            <option value="None">
+                                <option value="White">
+                                <option value="African American">
+                                <option value="Hispanic">
+                                <option value="Asian">
+                                
+                        </datalist>
+                        
+                  
+                    <p>Choose Topic</p>
+                    <dd> 
+                        <input type="checkbox" id="topic1" value="Death Rates">
+                        <label for="topic1">Death Rates</label><br>
+                        <input type="checkbox" id="topic2" value="Government">
+                        <label for="topic1">Government</label><br>
+                    </dd>
+                    <dd>
+                        <input type="submit" value="submit">
+                        <input type="reset">
+                    </dd>
+                </dl>
+            </fieldset>        
         </form>
 
         <h2>Search Results</h2>
+        <p>Found {{res_num}} articles. Showing page {{page_num}} out of {{total}} </p>
+        {% if page_num > 1 %}
+            <form action="/results/{{page_num-1}}" name="previouspage" method="GET">
+                <input style="width:60px;float:left;clear:right" type="submit" value="Previous">
+            </form>
+        {% endif %}
+        {% if total > 1 %}
+            <form action="/results/{{page_num+1}}" name="nextpage" method="get">
+            <input style="width:60px;float:left" type="submit" value="Next">
+            </form>
+        {% endif %}
+
+        <div id="results">
+            {% if res_num %}
+                {% for res in results %}
+                     <ul>
+                        <a href="/documents/{{res}}" target="_blank">ugh{{results[res]['score']|safe }}</a>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        </div>
     </body>
 </html>

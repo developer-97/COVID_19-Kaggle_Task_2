@@ -9,10 +9,22 @@
     <style>
         body{
             font-family: Comfortaa;
+            background-color: yellowgreen;
         }
 
         #results{
             border:10px;
+        }
+        .head{
+           
+            background-color: beige;
+        }
+        .query{
+            background-color: rgb(238, 160, 132);
+        }
+
+        .contents{
+            background-color: rgb(121, 138, 187);
         }
     </style>
     <body>
@@ -76,12 +88,13 @@
             <input style="width:60px;float:left" type="submit" value="Next">
             </form>
         {% endif %}
-
-        <div id="results">
-            {% if res_num %}
+            <br>
+        <div class="contents">
+            {% if res_num > 0 %}
                 {% for res in results %}
-                     <ul>
-                        <a href="/documents/{{res}}" target="_blank">ugh{{results[res]['score']|safe }}</a>
+                     <ul id="result">
+                        <pre><a href="/documents/{{res}}" target="_blank">{{results[res]['title']}}</a></pre>
+                       
                     </ul>
                 {% endfor %}
             {% endif %}

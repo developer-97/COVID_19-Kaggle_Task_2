@@ -75,12 +75,11 @@ def results(page):
     for hit in response.hits:
         result = {}
         result_list['score'] = hit.meta.score
-        result_list['title'] = hit.title
-        result_list['abstract'] = hit.abstract
-        result_list['text'] = hit.body_text
-
-    
-        result_list[hit.id] = result
+        result['title'] = hit.title
+        result['abstract'] = hit.abstract
+        
+        result['text'] = hit.body_text
+        result_list[hit.meta.id] = result
     
     g_results = result_list
     num_results = response.hits.total['value']
@@ -100,10 +99,10 @@ def results(page):
 def documents(res):
     global g_results
     doc = g_results[res]
-    doc_title = "why doesnt it work"
-    text = doc['text']
-    full_doc = Document_COVID_19.get(id=res,index="covid_19_index")
-    return render_template('doc_page.html',doc=full_doc,title=full_doc['title'])
+    doc_title = doc['title']
+    doc_abstract = doc['abstract']
+    doc_text = doc['text']
+    return render_template('doc_page.html',title=doc_title,abstract=doc_abstract,text=doc_text)
 
 if __name__ == "__main__":
     app.run(debug=True)

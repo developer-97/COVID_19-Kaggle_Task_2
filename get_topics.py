@@ -24,15 +24,13 @@ topic_dict = {}
 lines = data_file.readlines()
 
 for line in lines:
-    if progress_counter > 35:
-        break
     document_text = json.loads(line)["text"]
     document_id = json.loads(line)["document_id"]
     encoding_list.append(document_text)
     encoding_id_list.append(document_id)
     batch_c = batch_c + 1
     progress_counter = progress_counter + 1
-    if batch_c == 20:
+    if batch_c == 40:
         batch_c = 0
         encoding = text_encoder.encode_batch(encoding_list).asnumpy().tolist()
         for i, each_encoded in enumerate(encoding):
@@ -48,6 +46,7 @@ for i, each_encoded in enumerate(encoding):
     l = sorted(range(len(each_encoded)), key=lambda x: each_encoded[x])[-2:]
     l.reverse()  # a list of two indexes - first element is more probable
     topic_dict[encoding_id_list[i]] = l
+    print("Total number processed:", progress_counter)
 
 # Now generate output pickle
     with open("topic_dict.pkl", 'wb') as f:

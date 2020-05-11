@@ -95,14 +95,52 @@ def results(page):
         message.append('Cannot formulate results')
     
         return render_template('results.html',results=message,res_num=num_results,page_num=page,queries=docs)
+
+def getRecommendations(gresults):
+    search = Search(index='covid_19_index')
+    title = ''
+    abstract = ''
+    text = ''
+    keys = None
+
+    try:
+        keys = gresults.keys()
+    except:
+        search = Search(index='covid_19_index')
+        s = search.query('match',_id=gresults)
+        gresults = s[0].execute()
+        keys = gresults.keys()
+
+    if 'title' in keys:
+        title = gresults['title']
+    if 'abstract' in keys:
+        abstract = gresults['abstract']
+    if 'text' in keys:
+        text = gresults['text']
+    s = search.query('more_like_this', fields=['title','abstract','text'], like=title+abstract+text)
+    #Top 5 most similar documents
+    response = s[0:3].execute()
+    ids = []
+    for hit in response.hits:
+        if hit.title != gresults['title']:
+            ids.append(hit)
+    return ids
+
 @app.route("/documents/<res>",methods=['GET'])
 def documents(res):
     global g_results
-    doc = g_results[res]
+    doc = None
+    try:
+        doc = g_results[res]
+    except:
+        search = Search(index='covid_19_index')
+        s = search.query('match',_id=res)
+        doc = s[0].execute()
+    recommendations = getRecommendations(doc)
     doc_title = doc['title']
     doc_abstract = doc['abstract']
     doc_text = doc['text']
-    return render_template('doc_page.html',title=doc_title,abstract=doc_abstract,text=doc_text)
-
+    return render_template('doc_page.html',title=doc_title,abstract=doc_abstract,text=doc_text,
+                           recommendations=recommendations)
 if __name__ == "__main__":
     app.run(debug=True)

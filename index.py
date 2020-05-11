@@ -67,13 +67,13 @@ def buildIndex():
     film_index.create()
 
     documents = {}
-    path = '/Users/jasmynejeanremy/Desktop/comm_use_subset/pdf_json'
+    path = 'CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json'
     #Getting all files
     id = 1
     for file in os.listdir(path):
         # Open the json film corpus
         # with open('CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json/'+str(file), 'r', encoding='utf-8') as data_file:
-        fullFilePath = '/Users/jasmynejeanremy/Desktop/comm_use_subset/pdf_json/'+file
+        fullFilePath = 'CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json/'+file
         
         
         data = open(fullFilePath)
@@ -105,7 +105,7 @@ def buildIndex():
             yield {
                 "_index": "covid_19_index",
                 "_type": '_doc',
-                "id": mid,
+                "_id": documents[str(mid)][0],
                 "paper_id": documents[str(mid)][0],
                 "title": documents[str(mid)][1],
                 "abstract": documents[str(mid)][2],

@@ -2,6 +2,7 @@ from elasticsearch_dsl import Search
 from elasticsearch_dsl.utils import AttrList
 from flask import Flask,render_template,request,app 
 from index import Document_COVID_19
+from Topics import Topics
 
 app = Flask(__name__)
 
@@ -14,7 +15,8 @@ g_results = {}
 #display query page (search method)
 @app.route("/")
 def search():
-    return render_template('home_page.html')
+    topics = Topics()
+    return render_template('home_page.html', topics=topics.topics)
 
 
 #display results (results method)
@@ -68,7 +70,7 @@ def results(page):
     start = 0 + (page - 1) * 10
     end = 10 + (page - 1) * 10
 
-      # execute search and return results in specified range.
+    # execute search and return results in specified range.
     response = s[start:end].execute()
     result_list = {}
 

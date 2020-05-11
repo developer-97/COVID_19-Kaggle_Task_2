@@ -7,6 +7,12 @@ from gensim.utils import simple_preprocess
 from gensim.models import CoherenceModel
 import pandas as pd
 
+"""
+this file will generate a JSON file to pass to TMNT package for topic modele construction
+
+JSON file is a list of JSON entries with Document_ID and text (title, abstract and body_text from original document)
+"""
+
 pd.set_option('display.max_columns', None)
 pd.set_option('expand_frame_repr', False)
 
@@ -68,7 +74,6 @@ def generate_textual_data(dataframe):
     textual_data = []
     for index, each_row in dataframe.iterrows():
         this_textual_data = each_row["title"] + each_row["abstract"] + each_row["text"]
-        print (this_textual_data)
         textual_data.append(this_textual_data)
     dataframe["textual_data"] = textual_data
     return dataframe
@@ -76,7 +81,7 @@ def generate_textual_data(dataframe):
 
 def prep_tmnt(dataframe):
     """
-
+    generate three JSON files, will be processed by TMNT package to train topic model
     :param dataframe:
     :return: True if successfully generated JSON files
     """
@@ -113,6 +118,26 @@ def prep_tmnt(dataframe):
             '\n')
     return True
 
+
+def prep_topic_extracting(dataframe):
+    """
+    generate only one JSON file containing document_ID and text,
+    will processed to get most prevalent topics for each article
+    :param dataframe:
+    :return: True if successfully generated JSON file
+    """
+    corpus = []
+    for index, each_row in dataframe.iterrows():
+        text = {"document_id": index,"text": each_row["textual_data"]}
+        corpus.append(text)
+    with open('all_data.json', 'w') as wf1:
+        wf1.write(
+            '' +
+            '\n'.join(json.dumps(i) for i in corpus) +
+            '\n')
+    return True
+
+
 if __name__ == "__main__":
     #print_this_pickle(1)
     df = load_into_pandas(1)
@@ -124,8 +149,10 @@ if __name__ == "__main__":
     df = append_to_pandas_df(7, df)
     df = append_to_pandas_df(8, df)
     df = append_to_pandas_df(9, df)
+    df = append_to_pandas_df(10, df)
 
     # simple preprcoess three columns - title, abstract and text
+    # not used - TMNT package will do the tokenization automatically
     # pre = simple_preprocess(df_1, "title")
     # pre = simple_preprocess(pre, "abstract")
     # pre = simple_preprocess(pre, "text")
@@ -133,6 +160,6 @@ if __name__ == "__main__":
 
     # insert a new column - textual_data, which is the combination of all three columns
     df_new = generate_textual_data(df)
-    print (df_new)
     prep_tmnt(df_new)
-    # more pre-processing before feeding to model
+    prep_topic_extracting(df_new)
+

@@ -31,6 +31,7 @@
                     <legend>Search</legend>
                     <dl>
                     
+                           <dd>
                             What do we know about potential risk factors: <input list="symptoms" name="symptom">
                             <datalist id="symptoms">
                                 <option value="None">
@@ -41,9 +42,10 @@
                                 <option value="Pregnancy">
                                
                                 </datalist> 
-                            <br><br>
-
-                            How susceptible are populations: <input list="race" name="race">
+                           </dd> 
+                           <br>
+                            <dd>
+                                How susceptible are populations: <input list="race" name="race">
                             <datalist id="race">
                                 <option value="None">
                                     <option value="White">
@@ -52,20 +54,47 @@
                                     <option value="Asian">
                                     
                             </datalist>
+                            </dd>
                             
+                        <br>
+                       <dd>
+                        Set Questions: <input list='set' name='set'>
+                        <datalist id='set'>
+                          <option value="None">
+                          <option value="What do we know about the transmission of the COVID-19?">
+                          <option value="How do we mitigate through public health measures?">
+                          
+                              
+                        </datalist>
+                       </dd>  
                       
-                        <p>Choose Topic</p>
-                        <dd> 
-                            <input type="checkbox" id="topic1" value="Death Rates">
-                            <label for="topic1">Death Rates</label><br>
-                            <input type="checkbox" id="topic2" value="Government">
-                            <label for="topic1">Government</label><br>
-                        </dd>
-                        <dd>
+                    <br>
+                     <dd>
+                        Choose Topic
+                        <input list='topics' name='topic'>
+                        <datalist id='topics'>
+                            <option value="None">
+                            <option value="Inflammatory">
+                            <option value="Epidemic">
+                            <option value="Antibody">
+                            <option value="Risks">
+                            <option value="Activation">
+                            <option value="Genomes">
+                            <option value="Mutant">
+                            <option value="Extraction">
+                            <option value="Inflammatory">
+                            <option value="Government">
+                            <option value="Dynamics">
+                            <option value="MOI">
+                            </datalist>
+                     </dd>
+                    
                             <input type="submit" value="submit">
                             <input type="reset">
-                        </dd>
+                        
                     </dl>
+
+
                 </fieldset>
                
  

@@ -10,6 +10,7 @@ temp_text=""
 temp_sypm=""
 temp_race = ""
 temp_topic = ""
+t_setQuestion = ""
 g_results = {}
 #display query page (search method)
 @app.route("/")
@@ -24,6 +25,7 @@ def results(page):
     global temp_sypm
     global temp_race
     global temp_topic
+    global t_setQuestion
     global g_results
 
     if type(page) is not int:
@@ -33,7 +35,8 @@ def results(page):
        
         symp = request.form['symptom']
         race_q = request.form['race']
-      
+        topic = request.form['topic'] 
+        question = request.form['set']
         if len(symp) == 0 or (symp == 'None'):
             temp_sypm = ""
             symp = ""
@@ -46,17 +49,28 @@ def results(page):
             race_q = ""
         else:
             temp_race = race_q
+
+        if len(question) != 0 or (question != 'None'):
+            t_setQuestion = question
+        
+        if len(topic) == 0 or (topic == 'None'):
+            temp_topic = ""
+            topic = ""
+        else:
+            temp_topic = topic
     else:
         symp = temp_sypm
         race_q = temp_race
+        question = t_setQuestion
+        topic = temp_topic
 
     docs = {}
     docs['symp'] = symp
     docs['race'] = race_q
-
+    
 
     search = Search(index='covid_19_index')
-    #something needs to always be in free search for now to avoid errors
+    
     
     
     if len(symp) > 0:
@@ -65,6 +79,12 @@ def results(page):
     if len(race_q) > 0:
         full_query = "risk "+race_q
         s = search.query('multi_match',query=full_query,type='cross_fields',fields=['title','abstract','body_text'])
+    
+    if len(topic) > 0:
+        s = search.query('multi_match',query=topic,type='cross_fields',fields=['title','abstract','body_text'])
+    if len(question) > 0 & (question != 'None'):
+        s = search.query('multi_match',query=question,type='cross_fields',fields=['title','abstract','body_text'])
+    
     start = 0 + (page - 1) * 10
     end = 10 + (page - 1) * 10
 

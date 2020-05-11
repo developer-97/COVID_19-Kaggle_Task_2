@@ -5,7 +5,7 @@ from index import Document_COVID_19
 
 
 def getRecommendations(search,gresults):
-    s = search.query('more_like_this', fields=['title','abstract'], like=gresults['title']+gresults['abstract'])
+    s = search.query('more_like_this', fields=['title','abstract','body_text'], like=gresults['title']+gresults['abstract']+gresults['body_text'])
 
     #Top 5 most similar documents
     response = s[0:4].execute()
@@ -21,7 +21,7 @@ def getRecommendations(search,gresults):
 class RecommendationTest:
     if __name__ == "__main__":
         search = Search(index='covid_19_index')
-        s = search.query('multi_match',query="diabetes and covid_19 risk factors",type='cross_fields',fields=['title','abstract','body_text'])
+        s = search.query('multi_match',query="diabetes heart disease smoking",type='cross_fields',fields=['title','abstract','body_text'])
         start = 0 + (1 - 1) * 10
         end = 10 + (1 - 1) * 10
         response = s[start:end].execute()
@@ -42,10 +42,11 @@ class RecommendationTest:
             else:
                 result['title'] = hit.title
                 result['abstract'] = hit.abstract
+            result['body_text'] = hit.body_text
             resultList[hit.meta.id] = result
 
-        #S9BvAXIBhjijlB3kIoMI for testing purposes
-        getRecommendations(search,resultList['S9BvAXIBhjijlB3kIoMI'])
+        #jNBvAXIBhjijlB3kfaq5 for testing purposes
+        getRecommendations(search,resultList['jNBvAXIBhjijlB3kfaq5'])
 
 
 

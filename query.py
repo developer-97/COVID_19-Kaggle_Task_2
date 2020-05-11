@@ -1,6 +1,6 @@
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.utils import AttrList
-from flask import Flask,render_template,request,app 
+from flask import Flask,render_template,request,app
 from index import Document_COVID_19
 
 app = Flask(__name__)
@@ -28,12 +28,12 @@ def results(page):
 
     if type(page) is not int:
         page = int(page.encode('utf-8'))
-    
+
     if request.method == 'POST':
-       
+
         symp = request.form['symptom']
         race_q = request.form['race']
-      
+
         if len(symp) == 0 or (symp == 'None'):
             temp_sypm = ""
             symp = ""
@@ -57,8 +57,8 @@ def results(page):
 
     search = Search(index='covid_19_index')
     #something needs to always be in free search for now to avoid errors
-    
-    
+
+
     if len(symp) > 0:
         full_query = "risk factors "  + symp
         s = search.query('multi_match',query=full_query,type='cross_fields',fields=['title','abstract','body_text'])
@@ -79,12 +79,12 @@ def results(page):
         result_list['abstract'] = hit.abstract
         result_list['text'] = hit.body_text
 
-    
+
         result_list[hit.id] = result
-    
+
     g_results = result_list
     num_results = response.hits.total['value']
-   
+
     if num_results > 0:
         rem = num_results % 10
         total_pages = num_results / 10
@@ -94,16 +94,16 @@ def results(page):
     else:
         message = []
         message.append('Cannot formulate results')
-    
+
         return render_template('results.html',results=message,res_num=num_results,page_num=page,queries=docs)
+
 @app.route("/documents/<res>",methods=['GET'])
 def documents(res):
     global g_results
-    doc = g_results[res]
-    doc_title = "why doesnt it work"
-    text = doc['text']
+    # doc = g_results[res]
+    # text = doc['text']
     full_doc = Document_COVID_19.get(id=res,index="covid_19_index")
-    return render_template('doc_page.html',doc=full_doc,title=full_doc['title'])
+    return render_template('doc_page.html',doc=full_doc,title=res['title'])
 
 if __name__ == "__main__":
     app.run(debug=True)

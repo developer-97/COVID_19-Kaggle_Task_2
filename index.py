@@ -67,30 +67,36 @@ def buildIndex():
     film_index.create()
 
     documents = {}
-    path = '/Users/jasmynejeanremy/Desktop/comm_use_subset/pdf_json'
+    paths = ['CORD-19-research-challenge/biorxiv_medrxiv/biorxiv_medrxiv/pdf_json/',
+            'CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json/',
+            'CORD-19-research-challenge/custom_license/custom_license/pdf_json/',
+            'CORD-19-research-challenge/noncomm_use_subset/noncomm_use_subset/pdf_json/']
+
     #Getting all files
     id = 1
-    for file in os.listdir(path):
-        # Open the json film corpus
-        # with open('CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json/'+str(file), 'r', encoding='utf-8') as data_file:
-        fullFilePath = '/Users/jasmynejeanremy/Desktop/comm_use_subset/pdf_json/'+file
-        
-        
-        data = open(fullFilePath)
-        currentDoc = json.load(data)
-        try:
-            abstract = currentDoc['abstract'][0]['text']
-        except:
-            abstract = ''
+    for path in paths:
+        print(path)
+        for file in os.listdir(path):
+            # Open the json film corpus
+            # with open('CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json/'+str(file), 'r', encoding='utf-8') as data_file:
+            fullFilePath = path+file
 
-        body_text = currentDoc['body_text']
 
-        
-        
-        #ldaModel = LDA(body_text).performLDA()
-        documents[str(id)] = [currentDoc['paper_id'],currentDoc['metadata']['title'],
-                              abstract, body_text]
-        id = id + 1
+            data = open(fullFilePath)
+            currentDoc = json.load(data)
+            try:
+                abstract = currentDoc['abstract'][0]['text']
+            except:
+                abstract = ''
+
+            body_text = currentDoc['body_text']
+
+
+
+            #ldaModel = LDA(body_text).performLDA()
+            documents[str(id)] = [currentDoc['paper_id'],currentDoc['metadata']['title'],
+                                  abstract, body_text]
+            id = id + 1
         
 
     size = len(documents)

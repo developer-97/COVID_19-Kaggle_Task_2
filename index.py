@@ -5,6 +5,7 @@ import time
 import os
 from datetime import datetime
 from LDA import LDA
+from LDAUnigram import LDAUnigram
 
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
@@ -154,4 +155,6 @@ def main():
 
 
 if __name__ == '__main__':
+    # lda = LDAUnigram('')
+    # lda.performLDA()
     main()

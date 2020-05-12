@@ -21,6 +21,9 @@
         .topics{
             background-color: darkgrey;
         }
+        .recommendations{
+            background-color: turquoise;
+        }
     </style>
     <body>
         <h1>{{title}}</h1>
@@ -34,5 +37,14 @@
             <h2>Body Text</h2>
             <p>{{text}}</p>
         </div>
+        <div class="recommendations">
+            <h2>Recommended Articles</h2>
+            {% for rec in recommendations %}
+            <ul id="recommendation">
+                <pre><a href="/documents/{{rec['paper_id']}}" target="_blank">{{rec['title']}}</a></pre>
+            </ul>
+            {% endfor %}
+        </div>
+
     </body>
 </html>

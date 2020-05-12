@@ -6,7 +6,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Configuration')
 parser.add_argument('--path', type=str,
                     help='File path to COVID-19 dataset',
-                    default='/Users/jacobhan/Downloads/CORD-19-research-challenge/comm_use_subset')
+                    default='CORD-19-research-challenge/comm_use_subset')
 parser.add_argument('--batch', type=int, help='Amount of articles in a single pickle file',
                     default=2000)
 args = parser.parse_args()

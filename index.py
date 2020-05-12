@@ -55,10 +55,11 @@ def buildIndex():
     film_index.create()
 
     documents = {}
-    paths = ['CORD-19-research-challenge/biorxiv_medrxiv/biorxiv_medrxiv/pdf_json/',
-             'CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json/',
-             'CORD-19-research-challenge/custom_license/custom_license/pdf_json/',
-             'CORD-19-research-challenge/noncomm_use_subset/noncomm_use_subset/pdf_json/']
+    # paths = ['CORD-19-research-challenge/biorxiv_medrxiv/biorxiv_medrxiv/pdf_json/',
+    #          'CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json/',
+    #          'CORD-19-research-challenge/custom_license/custom_license/pdf_json/',
+    #          'CORD-19-research-challenge/noncomm_use_subset/noncomm_use_subset/pdf_json/']
+    paths = ['CORD-19-research-challenge/comm_use_subset/comm_use_subset/pdf_json/']
 
     # Getting all files
     id = 1

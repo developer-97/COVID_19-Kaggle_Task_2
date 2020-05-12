@@ -54,9 +54,9 @@ class Topics:
     def recommendedTopics(self,keyword):
         recommendations = []
         for topic in self.populateTopics():
-            bagOfTerms = [i for i in range(len(topic)) if topic[i] is not keyword]
+            bagOfTerms = [i for i in range(len(topic)) if topic[i] != keyword]
             if keyword in topic:
-                recommendations.append(topic[bagOfTerms.pop(int(random.random()*len(topic)-1))])
-                recommendations.append(topic[bagOfTerms.pop(int(random.random()*len(topic))-1)])
-                recommendations.append(topic[bagOfTerms.pop(int(random.random()*len(topic))-1)])
+                recommendations.append(topic[bagOfTerms.pop(int(random.random()*len(bagOfTerms)-1))])
+                recommendations.append(topic[bagOfTerms.pop(int(random.random()*len(bagOfTerms))-1)])
+                recommendations.append(topic[bagOfTerms.pop(int(random.random()*len(bagOfTerms))-1)])
         return recommendations

@@ -2,6 +2,7 @@ from elasticsearch_dsl import Search
 from elasticsearch_dsl.utils import AttrList
 from flask import Flask,render_template,request,app
 from Topics import Topics
+import pickle
 from index import Document_COVID_19
 
 app = Flask(__name__)
@@ -13,7 +14,9 @@ temp_race = ""
 temp_topic = ""
 t_setQuestion = ""
 g_results = {}
+docsTopicMapping = None
 #display query page (search method)
+
 @app.route("/")
 def search():
     topics = Topics()
@@ -29,6 +32,8 @@ def results(page):
     global temp_topic
     global t_setQuestion
     global g_results
+
+
 
     if type(page) is not int:
         page = int(page.encode('utf-8'))
@@ -75,6 +80,7 @@ def results(page):
 
     search = Search(index='covid_19_index')
 
+    s=None
 
     if len(symp) > 0:
         full_query = "risk factors "  + symp
@@ -83,13 +89,19 @@ def results(page):
         full_query = "risk "+race_q
         s = search.query('multi_match',query=full_query,type='cross_fields',fields=['title','abstract','body_text'])
     if len(topic) > 0:
-        s = search.query('multi_match',query=topic,type='cross_fields',fields=['title','abstract','body_text'])
+        s = search.query('ids',values=getDocsFromTopic(topic))
     if len(question) > 0 & (question != 'None'):
         s = search.query('multi_match',query=question,type='cross_fields',fields=['title','abstract','body_text'])
 
     start = 0 + (page - 1) * 10
     end = 10 + (page - 1) * 10
 
+    topicsObj = Topics()
+
+    if s is None:
+        return render_template('results.html', results={}, res_num=0, page_num=0,
+                               total=0,
+                               queries=docs, topics=topicsObj.startingTopics())
       # execute search and return results in specified range.
     response = s[start:end].execute()
     result_list = {}
@@ -106,7 +118,6 @@ def results(page):
     g_results = result_list
     num_results = response.hits.total['value']
 
-    topicsObj = Topics()
 
     if num_results > 0:
         rem = num_results % 10
@@ -125,6 +136,23 @@ def results(page):
                            recommendedTopics=topicsObj.recommendedTopics(topic),
                            topics=topicsObj.startingTopics())
 
+def getDocsFromTopic(keyword):
+    paperIds = []
+    #Find the topic that the keyword is in
+    topics = Topics().populateTopics()
+    topicNum = -1
+    for i in range(len(topics)):
+        if keyword in topics[i]:
+            topicNum=i
+
+    #Find documents that have that topic
+    for key in docsTopicMapping:
+        if topicNum in docsTopicMapping[key]:
+            paperIds.append(key)
+
+    return paperIds
+
+
 def getRecommendations(gresults):
     search = Search(index='covid_19_index')
     title = ''
@@ -136,9 +164,10 @@ def getRecommendations(gresults):
         keys = gresults.keys()
     except:
         search = Search(index='covid_19_index')
-        s = search.query('match',_id=gresults)
+        s = search.query('match',_id=gresults['paper_id'])
         gresults = s[0].execute()
-        keys = gresults.keys()
+        keys = gresults.hits[0]
+        gresults = gresults.hits[0]
 
     if 'title' in keys:
         title = gresults['title']
@@ -164,13 +193,19 @@ def documents(res):
     except:
         search = Search(index='covid_19_index')
         s = search.query('match',_id=res)
-        doc = s[0].execute()
+        doc = s[0].execute().hits[0]
     recommendations = getRecommendations(doc)
     doc_title = doc['title']
     doc_abstract = doc['abstract']
-    doc_text = doc['text']
+    try:
+        doc_text = doc['body_text']
+    except:
+        doc_text = doc['text']
     return render_template('doc_page.html',title=doc_title,abstract=doc_abstract,text=doc_text,
                            recommendations=recommendations)
 
 if __name__ == "__main__":
+    f = open('topic_dict.pkl','rb')
+    docsTopicMapping = pickle.load(f)
+    f.close()
     app.run(debug=True)

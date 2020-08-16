@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>{{title}}</title>
+         <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+    </head>
+    <style>
+        body{
+            font-family: Comfortaa;
+            background-color: yellowgreen;
+        }
+
+        h1{
+            text-align: center;
+            background-color:beige;
+        }
+
+        .text{
+            background-color: cornsilk;
+        }
+        .topics{
+            background-color: darkgrey;
+        }
+        .recommendations{
+            background-color: turquoise;
+        }
+    </style>
+    <body>
+        <h1>{{title}}</h1>
+
+        <div class="text">
+            <h2>Abstract</h2>
+            <p>{{abstract}}</p>
+        </div>
+
+        <div class="topics">
+            <h2>Body Text</h2>
+            <p>{{text}}</p>
+        </div>
+        <div class="recommendations">
+            <h2>Recommended Articles</h2>
+            {% for rec in recommendations %}
+            <ul id="recommendation">
+                <pre><a href="/documents/{{rec['paper_id']}}" target="_blank">{{rec['title']}}</a></pre>
+            </ul>
+            {% endfor %}
+        </div>
+
+    </body>
+</html>

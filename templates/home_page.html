@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Homepage</title>
+        
+        <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+    </head>
+    <style>
+        .head{
+            background-color: beige;
+        }
+        body{
+            font-family: Comfortaa;
+            background-color: yellowgreen;
+        }
+
+        .query{
+            background-color: rgb(238, 160, 132);
+        }
+    </style>
+    <body>
+        <div class="body">
+            <div class="head">
+                <h1>Covid-19 Risk Factors &#129298;</h1>
+                <h2>Kaggle Task 2: What do we know about COVID-19 Risk Factors? &#129440;</h2>
+            </div>
+            <div id="divide"> </div>
+            <form class="query" action="/results" name="search" method="POST">
+                <fieldset>
+                    <legend>Search</legend>
+                    <dl>
+                    
+                           <dd>
+                            What do we know about potential risk factors: <input list="symptoms" name="symptom">
+                            <datalist id="symptoms">
+                                <option value="Asthma">
+                                <option value="Cancer">
+                                <option value="Smoker/Pulmonary Disease">
+                                <option value="Respiratory">
+                                <option value="Pregnancy">
+                               
+                                </datalist> 
+                           </dd> 
+                           <br>
+                            <dd>
+                                How susceptible are populations: <input list="race" name="race">
+                            <datalist id="race">
+                                    <option value="White">
+                                    <option value="African American">
+                                    <option value="Hispanic">
+                                    <option value="Asian">
+                                    
+                            </datalist>
+                            </dd>
+                        <br>
+                       <dd>
+                        Set Questions: <input list='set' name='set'>
+                        <datalist id='set'>
+                          <option value="What do we know about the transmission of the COVID-19?">
+                          <option value="How do we mitigate through public health measures?">
+                        </datalist>
+                       </dd>
+                    <br>
+                     <dd>
+                        Choose Topic
+                        <input list='topics' name='topic'>
+                        <datalist id='topics'>
+                            {% for tops in topics %}
+                            <option value={{tops}}>
+                            {% endfor %}
+                            </datalist>
+                         <input type="submit" value="submit">
+                            <input type="reset">
+                     </dd>
+
+                    </dl>
+                </fieldset>
+            </form>
+        </div>
+        
+    </body>
+</html>
